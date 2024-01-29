@@ -1,0 +1,7 @@
+/apps_v71/docker/apache/logs/*.log
+/apps_v71/www/html/index.php
+/apps_v71/.env
+
+/apps_v81/docker/apache/logs/*.log
+/apps_v81/www/html/index.php
+/apps_v81/.env

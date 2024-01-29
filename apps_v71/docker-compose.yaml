@@ -1,0 +1,25 @@
+version: "3"
+
+networks:
+  default:
+    external: true
+    name: ${NETWORK_NAME}
+    
+services: 
+  app:
+    image: stcma/php:71-apache2-prd
+    tty: true
+    container_name: ${CONTAINER_NAME}
+    entrypoint: sh /docker-entrypoint.sh 
+    restart: "always"
+    volumes:
+      - "./www:/var/www"
+      - "./docker/apache/sites-available:/etc/apache2/sites-available"
+      - "./docker/apache/logs:/var/log/apache2"
+      - "./docker/apache/passwd:/usr/local/apache/passwd"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${CONTAINER_NAME}.rule=Host(`${TRAEFIK_DNS}`)"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=80"
+    networks:
+      - default
